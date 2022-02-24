@@ -1,9 +1,8 @@
-# descriptive
+# Part 1: Descriptive Analysis
 
 
 How does Gifted and Talented affect student test scores?
 
-## Data Overview
 
 ### Data cleaning
 
@@ -16,12 +15,26 @@ library(readr)
 library(tidyverse)
 library(kableExtra)
 
-
-merged<- read_csv("data/merged.csv")
-head(merged[1:3,c(1:6,8:9)]) %>%
+data<- readRDS("/cloud/project/data/total_data_wide.RDS")
+head(data[1:3,c(1:6,8:9)]) %>%
   kable(caption = "Sample Data Frame",
         col.names = c(" ", "DBN", "School Name",
                       "ENI", "% Male", "% Black", "%SWD", "% Poverty"))
+
+## rename data frame
+data <- data %>%
+  rename(TotalEnrollment = `Total Enrollment`,
+         ENI = `Economic Need Index`,
+         PercentBlack = `% Black`,
+         PercentWhite = `% White`,
+         PercentSWD = `% Students with Disabilities`,
+         PercentPoverty = `% Poverty`,
+         PercentAsian = `% Asian`,
+         PercentHispanic = `% Hispanic`,
+         PercentELL = `% English Language Learners`,
+         Percent_Attendance = `% Attendance`,
+         Percent_Chron_Absent = `% Chronically Absent`,
+         PercentMale= `% Male`)
 ```
 
 
@@ -32,16 +45,12 @@ Treatment in each borough. 101 schools have the gifted option, 653 no gifted opt
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
-school_wide <- read_csv("data/merged.csv")
-ela_wide <- read_csv("raw/ela_wide (1).csv")
-math_wide <- read_csv("raw/math_wide (1).csv")
-## bring together
-data <- merge(ela_wide, math_wide, by = "DBN")
-data <- merge(data, school_wide, by = "DBN")
 ## small table
 small <- data %>%
   select(DBN, `School Name`, class_option, `3 2019.y`, `4 2019.y`, `5 2019.y`,
-         `3 2019.x`, `4 2019.x`, `5 2019.x`, `Total Enrollment`, `% Poverty`,`% Students with Disabilities`, `Economic Need Index`, borough, school_type) %>%
+         `3 2019.x`, `4 2019.x`, `5 2019.x`, borough, school_type, TotalEnrollment,
+         ENI, PercentMale, PercentSWD, PercentPoverty, PercentBlack,
+         PercentELL, PercentAsian, PercentHispanic, Percent_Attendance, Percent_Chron_Absent) %>%
   mutate(GT_option = case_when(class_option %in% c("GT", "SC and GT") ~ "gifted option",
                                class_option %in% c("no option", "SC") ~ "no gifted option"),
          SC_option = case_when(class_option %in% c("SC", "SC and GT") ~ "SC option",
@@ -86,8 +95,7 @@ ggplot(data = liklihood, aes(fill = class_option, y = ratio,
 ```
 
 ### Raw Differences in Outcome and Covariates 
-
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 small$`3 2019.ela` <-gsub(",","",small$`3 2019.y`,fixed = TRUE)
 small$`3 2019.math` <-gsub(",","",small$`3 2019.x`,fixed = TRUE)
@@ -107,40 +115,62 @@ small %>%
 ### GT Option by Economic Need, Poverty, Enrollment
 small%>%
   group_by(GT_option) %>%
-  summarise(mean_ec = mean(`Economic Need Index`),
-            mean_poverty = mean(`% Poverty`),
-            total = mean(`Total Enrollment`))
-small%>%
-  group_by(SC_option) %>%
-  summarise(mean_ec = mean(`Economic Need Index`),
-            mean_poverty = mean(`% Poverty`),
-            total = mean(`Total Enrollment`))
-
+  summarise(mean_ec = mean(ENI),
+            mean_poverty = mean(PercentPoverty),
+            total = mean(TotalEnrollment))
 #### GT Option by Borough
 ### boroughs
 small %>%
   group_by(borough, GT_option) %>%
-  summarise(mean_ec = mean(`Economic Need Index`),
-            mean_poverty = mean(`% Poverty`),
-            total = mean(`Total Enrollment`))
+  summarise(mean_ec = mean(ENI),
+            mean_poverty = mean(PercentPoverty),
+            total = mean(TotalEnrollment))
 
 
 ### GT Option by School Type *** NOTE: Middle Schools again have the biggest difference
 small %>%
   group_by(school_type, GT_option) %>%
-  summarise(mean_ec = mean(`Economic Need Index`),
-            mean_poverty = mean(`% Poverty`),
-            total = mean(`Total Enrollment`))
+  summarise(mean_ec = mean(ENI),
+            mean_poverty = mean(PercentPoverty),
+            total = mean(TotalEnrollment))
+```
+
+### Correlation of covariates
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+colnames(small)
+cor_set <- small %>%
+      select(ENI, PercentMale, PercentBlack, PercentSWD,
+             PercentPoverty, PercentELL, PercentAsian, PercentHispanic, Percent_Chron_Absent,
+             Percent_Attendance,  "3 2019.ela" , "3 2019.math" )
+
+df2 = as.data.frame(sapply(cor_set, as.numeric))
+  cor_matrix_SC <- cor(df2)
+    
+  library(corrplot)
+    library(ggcorrplot)
+    
+    ggcorrplot(cor_matrix_SC, hc.order = TRUE,
+               type = "lower", outline.col = "white", lab = TRUE, tl.cex = 2)+
+      theme(axis.text.x = element_text(size = 7, angle = 40),
+            axis.text.y = element_text(size = 9)) +
+      scale_fill_viridis()
+    
+
 ```
 
 
-## Naive regression models (without matching)
+### Review of Causal rules for ignorability/covariate selection
+
+
+### Naive regression models (without matching)
 
 Treatment (GT) higher ELA and Math scores
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-mod <- lm(`3 2019.ela` ~ treatment + `Economic Need Index` + `Total Enrollment`, data =small)
+mod <- lm(`3 2019.ela` ~ treatment + ENI, data =small)
 summary(mod)
 table(small$treatment)
 mod <- lm(`3 2019.math` ~ treatment, data =small)

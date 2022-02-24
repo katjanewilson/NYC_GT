@@ -12,3 +12,10 @@ visualizing-the-treatment-gt-option
 raw-differences-in-outcome-and-covariates
 naive-regression-models-without-matching
 causal
+part-1-descriptive-analysis
+correlation-of-covariates
+review-of-causal-rules-for-ignorabilitycovariate-selection
+motivation
+part-2-causal
+part-3-geospatial-analysis
+part-2-causal-inference

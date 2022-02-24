@@ -1,19 +1,19 @@
-# causal
+# Part 2: Causal Inference
 
 ```{r}
-### matched
-library(MatchIt)
-school_nearest <- matchit(formula = treatment ~ `Economic Need Index` + `Total Enrollment` +`% Students with Disabilities`, 
-                          data = small,
-                          method = "nearest",
-                          family = "binomial",
-                          caliper = 0.25,
-                          ratio = 6)
-
-nearest_matched <- match.data(school_nearest)
-
-model_n <- lm(`3 2019.math` ~ treatment, data = nearest_matched)
-summary(model_n)
+# ### matched
+# library(MatchIt)
+# school_nearest <- matchit(formula = treatment ~ `Economic Need Index` + `Total Enrollment` +`% Students with Disabilities`, 
+#                           data = small,
+#                           method = "nearest",
+#                           family = "binomial",
+#                           caliper = 0.25,
+#                           ratio = 6)
+# 
+# nearest_matched <- match.data(school_nearest)
+# 
+# model_n <- lm(`3 2019.math` ~ treatment, data = nearest_matched)
+# summary(model_n)
 
 
 ```

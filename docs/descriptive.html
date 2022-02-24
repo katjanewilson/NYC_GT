@@ -183,12 +183,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </caption>
 <thead>
 <tr>
-<th style="text-align:right;">
+<th style="text-align:left;">
 </th>
 <th style="text-align:left;">
 DBN
 </th>
-<th style="text-align:left;">
+<th style="text-align:right;">
 School Name
 </th>
 <th style="text-align:right;">
@@ -210,9 +210,6 @@ ENI
 </thead>
 <tbody>
 <tr>
-<td style="text-align:right;">
-1
-</td>
 <td style="text-align:left;">
 01M015
 </td>
@@ -229,16 +226,16 @@ P.S. 015 Roberto Clemente
 0.479
 </td>
 <td style="text-align:right;">
-0.032
+0.274
 </td>
 <td style="text-align:right;">
 0.258
 </td>
+<td style="text-align:right;">
+0.847
+</td>
 </tr>
 <tr>
-<td style="text-align:right;">
-2
-</td>
 <td style="text-align:left;">
 01M019
 </td>
@@ -255,16 +252,16 @@ P.S. 019 Asher Levy
 0.556
 </td>
 <td style="text-align:right;">
-0.062
+0.191
 </td>
 <td style="text-align:right;">
 0.350
 </td>
+<td style="text-align:right;">
+0.770
+</td>
 </tr>
 <tr>
-<td style="text-align:right;">
-3
-</td>
 <td style="text-align:left;">
 01M020
 </td>
@@ -281,10 +278,13 @@ P.S. 020 Anna Silver
 0.509
 </td>
 <td style="text-align:right;">
-0.032
+0.103
 </td>
 <td style="text-align:right;">
 0.237
+</td>
+<td style="text-align:right;">
+0.736
 </td>
 </tr>
 </tbody>
@@ -333,10 +333,10 @@ Mean Math
 0
 </td>
 <td style="text-align:right;">
-598.21
+598.71
 </td>
 <td style="text-align:right;">
-598.71
+598.21
 </td>
 </tr>
 <tr>
@@ -344,10 +344,10 @@ Mean Math
 1
 </td>
 <td style="text-align:right;">
-607.88
+608.74
 </td>
 <td style="text-align:right;">
-608.74
+607.88
 </td>
 </tr>
 </tbody>
@@ -365,23 +365,13 @@ Mean Math
 ##   &lt;chr&gt;              &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;
 ## 1 gifted option      0.574        0.614  790.
 ## 2 no gifted option   0.745        0.778  602.</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="descriptive.html#cb4-1" aria-hidden="true" tabindex="-1"></a>small<span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="descriptive.html#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(SC_option) <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href="descriptive.html#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_ec =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Economic Need Index</span><span class="st">`</span>),</span>
-<span id="cb4-4"><a href="descriptive.html#cb4-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_poverty =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">% Poverty</span><span class="st">`</span>),</span>
-<span id="cb4-5"><a href="descriptive.html#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">total =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Total Enrollment</span><span class="st">`</span>))</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 4
-##   SC_option    mean_ec mean_poverty total
-##   &lt;chr&gt;          &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;
-## 1 no SC option   0.533        0.540  481.
-## 2 SC option      0.764        0.804  660.</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="descriptive.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### GT Option by Borough</span></span>
-<span id="cb6-2"><a href="descriptive.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">### boroughs</span></span>
-<span id="cb6-3"><a href="descriptive.html#cb6-3" aria-hidden="true" tabindex="-1"></a>small <span class="sc">%&gt;%</span></span>
-<span id="cb6-4"><a href="descriptive.html#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(borough, GT_option) <span class="sc">%&gt;%</span></span>
-<span id="cb6-5"><a href="descriptive.html#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_ec =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Economic Need Index</span><span class="st">`</span>),</span>
-<span id="cb6-6"><a href="descriptive.html#cb6-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_poverty =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">% Poverty</span><span class="st">`</span>),</span>
-<span id="cb6-7"><a href="descriptive.html#cb6-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">total =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Total Enrollment</span><span class="st">`</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="descriptive.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### GT Option by Borough</span></span>
+<span id="cb4-2"><a href="descriptive.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">### boroughs</span></span>
+<span id="cb4-3"><a href="descriptive.html#cb4-3" aria-hidden="true" tabindex="-1"></a>small <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="descriptive.html#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(borough, GT_option) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="descriptive.html#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_ec =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Economic Need Index</span><span class="st">`</span>),</span>
+<span id="cb4-6"><a href="descriptive.html#cb4-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_poverty =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">% Poverty</span><span class="st">`</span>),</span>
+<span id="cb4-7"><a href="descriptive.html#cb4-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">total =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Total Enrollment</span><span class="st">`</span>))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;borough&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 10 × 5
@@ -398,12 +388,12 @@ Mean Math
 ##  8 Queens        no gifted option   0.661        0.743  709.
 ##  9 Staten Island gifted option      0.390        0.472  817 
 ## 10 Staten Island no gifted option   0.578        0.629  599.</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="descriptive.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">### GT Option by School Type *** </span><span class="al">NOTE</span><span class="do">: Middle Schools again have the biggest difference</span></span>
-<span id="cb9-2"><a href="descriptive.html#cb9-2" aria-hidden="true" tabindex="-1"></a>small <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="descriptive.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(school_type, GT_option) <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="descriptive.html#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_ec =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Economic Need Index</span><span class="st">`</span>),</span>
-<span id="cb9-5"><a href="descriptive.html#cb9-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_poverty =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">% Poverty</span><span class="st">`</span>),</span>
-<span id="cb9-6"><a href="descriptive.html#cb9-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">total =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Total Enrollment</span><span class="st">`</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="descriptive.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">### GT Option by School Type *** </span><span class="al">NOTE</span><span class="do">: Middle Schools again have the biggest difference</span></span>
+<span id="cb7-2"><a href="descriptive.html#cb7-2" aria-hidden="true" tabindex="-1"></a>small <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="descriptive.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(school_type, GT_option) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="descriptive.html#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_ec =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Economic Need Index</span><span class="st">`</span>),</span>
+<span id="cb7-5"><a href="descriptive.html#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_poverty =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">% Poverty</span><span class="st">`</span>),</span>
+<span id="cb7-6"><a href="descriptive.html#cb7-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">total =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Total Enrollment</span><span class="st">`</span>))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;school_type&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 6 × 5
@@ -421,8 +411,8 @@ Mean Math
 <div id="naive-regression-models-without-matching" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Naive regression models (without matching)</h2>
 <p>Treatment (GT) higher ELA and Math scores</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="descriptive.html#cb12-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">3 2019.ela</span><span class="st">`</span> <span class="sc">~</span> treatment <span class="sc">+</span> <span class="st">`</span><span class="at">Economic Need Index</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Total Enrollment</span><span class="st">`</span>, <span class="at">data =</span>small)</span>
-<span id="cb12-2"><a href="descriptive.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="descriptive.html#cb10-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">3 2019.ela</span><span class="st">`</span> <span class="sc">~</span> treatment <span class="sc">+</span> <span class="st">`</span><span class="at">Economic Need Index</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">Total Enrollment</span><span class="st">`</span>, <span class="at">data =</span>small)</span>
+<span id="cb10-2"><a href="descriptive.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = `3 2019.ela` ~ treatment + `Economic Need Index` + 
@@ -430,44 +420,44 @@ Mean Math
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -22.9940  -4.7151  -0.4763   4.3516  25.6512 
+## -19.4697  -4.1334  -0.5053   3.6744  27.7575 
 ## 
 ## Coefficients:
 ##                         Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)            6.177e+02  1.023e+00 603.966  &lt; 2e-16 ***
-## treatment              4.421e+00  7.701e-01   5.741 1.36e-08 ***
-## `Economic Need Index` -2.813e+01  1.097e+00 -25.642  &lt; 2e-16 ***
-## `Total Enrollment`     2.348e-03  8.347e-04   2.813  0.00503 ** 
+## (Intercept)            6.187e+02  9.222e-01 670.970  &lt; 2e-16 ***
+## treatment              5.176e+00  6.943e-01   7.455 2.49e-13 ***
+## `Economic Need Index` -2.754e+01  9.891e-01 -27.841  &lt; 2e-16 ***
+## `Total Enrollment`     7.852e-04  7.525e-04   1.043    0.297    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.854 on 750 degrees of freedom
-## Multiple R-squared:  0.5319, Adjusted R-squared:   0.53 
-## F-statistic:   284 on 3 and 750 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="descriptive.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(small<span class="sc">$</span>treatment)</span></code></pre></div>
+## Residual standard error: 6.18 on 750 degrees of freedom
+## Multiple R-squared:  0.5748, Adjusted R-squared:  0.5731 
+## F-statistic:   338 on 3 and 750 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="descriptive.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(small<span class="sc">$</span>treatment)</span></code></pre></div>
 <pre><code>## 
 ##   0   1 
 ## 653 101</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="descriptive.html#cb16-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">3 2019.math</span><span class="st">`</span> <span class="sc">~</span> treatment, <span class="at">data =</span>small)</span>
-<span id="cb16-2"><a href="descriptive.html#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="descriptive.html#cb14-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">3 2019.math</span><span class="st">`</span> <span class="sc">~</span> treatment, <span class="at">data =</span>small)</span>
+<span id="cb14-2"><a href="descriptive.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = `3 2019.math` ~ treatment, data = small)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -25.712  -6.712  -0.712   5.288  33.288 
+## -25.210  -7.210  -0.881   5.790  34.790 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 598.7121     0.3453 1733.69   &lt;2e-16 ***
-## treatment    10.0305     0.9436   10.63   &lt;2e-16 ***
+##             Estimate Std. Error  t value Pr(&gt;|t|)    
+## (Intercept) 598.2098     0.3696 1618.454   &lt;2e-16 ***
+## treatment     9.6714     1.0099    9.577   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.825 on 752 degrees of freedom
-## Multiple R-squared:  0.1306, Adjusted R-squared:  0.1295 
-## F-statistic:   113 on 1 and 752 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 9.445 on 752 degrees of freedom
+## Multiple R-squared:  0.1087, Adjusted R-squared:  0.1075 
+## F-statistic: 91.71 on 1 and 752 DF,  p-value: &lt; 2.2e-16</code></pre>
 
 </div>
 </div>
