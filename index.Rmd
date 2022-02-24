@@ -1,6 +1,6 @@
 --- 
 title: "GT"
-author: "YOUR NAME HERE"
+author: "Katherine Wilson and Jess Huang"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
