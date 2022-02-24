@@ -1,0 +1,152 @@
+# descriptive
+
+
+How does Gifted and Talented affect student test scores?
+
+## Data Overview
+
+### Data cleaning
+
+Using OpenData NYC, we pull aggregate K-8 attendance records and socio-economic variables for all 1125 public schools in NYC.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#install and load packages
+library(tidyverse)
+library(readr)
+library(tidyverse)
+library(kableExtra)
+
+
+merged<- read_csv("data/merged.csv")
+head(merged[1:3,c(1:6,8:9)]) %>%
+  kable(caption = "Sample Data Frame",
+        col.names = c(" ", "DBN", "School Name",
+                      "ENI", "% Male", "% Black", "%SWD", "% Poverty"))
+```
+
+
+### Visualizing the Treatment (GT option)
+
+Treatment in each borough. 101 schools have the gifted option, 653 no gifted option
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+school_wide <- read_csv("data/merged.csv")
+ela_wide <- read_csv("raw/ela_wide (1).csv")
+math_wide <- read_csv("raw/math_wide (1).csv")
+## bring together
+data <- merge(ela_wide, math_wide, by = "DBN")
+data <- merge(data, school_wide, by = "DBN")
+## small table
+small <- data %>%
+  select(DBN, `School Name`, class_option, `3 2019.y`, `4 2019.y`, `5 2019.y`,
+         `3 2019.x`, `4 2019.x`, `5 2019.x`, `Total Enrollment`, `% Poverty`,`% Students with Disabilities`, `Economic Need Index`, borough, school_type) %>%
+  mutate(GT_option = case_when(class_option %in% c("GT", "SC and GT") ~ "gifted option",
+                               class_option %in% c("no option", "SC") ~ "no gifted option"),
+         SC_option = case_when(class_option %in% c("SC", "SC and GT") ~ "SC option",
+                               class_option %in% c("no option", "GT") ~ "no SC option"),
+         treatment = ifelse(GT_option == "gifted option", 1, 0))
+
+#### 
+### STEP 2: Prevalence of the Option, Likelihood
+####
+percent <- function(x, digits = 2, format = "f", ...) {
+  paste0(formatC(100 * x, format = format, digits = digits, ...), "%")
+}
+liklihood <- small %>% 
+  group_by(borough) %>%
+  mutate(total=n()) %>%
+  group_by(class_option, borough) %>%
+  summarise(n=n(),
+            ratio = n/total) %>%
+  mutate(percentage = percent(ratio)) %>%
+  distinct() %>%
+  select(class_option, borough, percentage, ratio, n) %>%
+  arrange(borough)
+liklihood$ratio2 <- percent(liklihood$ratio)
+library(viridis)
+ggplot(data = liklihood, aes(fill = class_option, y = ratio,
+                       x = borough , label = ratio2))+
+  geom_bar(position = "dodge", stat = "identity") +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(size=11),
+    axis.title.y = element_blank(),
+    axis.title.x = element_blank(),
+    panel.background = element_rect(fill = 'white'),
+    axis.text.x = element_text(face = "bold", size = 12),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank()
+  ) +
+  scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+  scale_y_continuous(labels = scales::percent)+
+  geom_text(size = 4, position=position_dodge(width=1), vjust=-1, hjust = .4)
+
+```
+
+### Raw Differences in Outcome and Covariates 
+
+```{r}
+
+small$`3 2019.ela` <-gsub(",","",small$`3 2019.y`,fixed = TRUE)
+small$`3 2019.math` <-gsub(",","",small$`3 2019.x`,fixed = TRUE)
+library(tidyverse)
+small<- small %>%
+  group_by(treatment) %>%
+  na.omit() %>%
+  filter(`3 2019.ela` != "s") 
+small %>%
+  summarise(mean_third_ela = mean(as.numeric(`3 2019.ela`)),
+            mean_third_math = mean(as.numeric(`3 2019.math`))) %>%
+   kable(caption = "Outcome Differences by Treatment",
+        col.names= c("Treatment", "Mean ELA", "Mean Math"),
+        digits = c(0,2,2))
+# 
+# table(small$GT_option)
+### GT Option by Economic Need, Poverty, Enrollment
+small%>%
+  group_by(GT_option) %>%
+  summarise(mean_ec = mean(`Economic Need Index`),
+            mean_poverty = mean(`% Poverty`),
+            total = mean(`Total Enrollment`))
+small%>%
+  group_by(SC_option) %>%
+  summarise(mean_ec = mean(`Economic Need Index`),
+            mean_poverty = mean(`% Poverty`),
+            total = mean(`Total Enrollment`))
+
+#### GT Option by Borough
+### boroughs
+small %>%
+  group_by(borough, GT_option) %>%
+  summarise(mean_ec = mean(`Economic Need Index`),
+            mean_poverty = mean(`% Poverty`),
+            total = mean(`Total Enrollment`))
+
+
+### GT Option by School Type *** NOTE: Middle Schools again have the biggest difference
+small %>%
+  group_by(school_type, GT_option) %>%
+  summarise(mean_ec = mean(`Economic Need Index`),
+            mean_poverty = mean(`% Poverty`),
+            total = mean(`Total Enrollment`))
+```
+
+
+## Naive regression models (without matching)
+
+Treatment (GT) higher ELA and Math scores
+
+```{r}
+
+mod <- lm(`3 2019.ela` ~ treatment + `Economic Need Index` + `Total Enrollment`, data =small)
+summary(mod)
+table(small$treatment)
+mod <- lm(`3 2019.math` ~ treatment, data =small)
+summary(mod)
+
+```
+
+
+

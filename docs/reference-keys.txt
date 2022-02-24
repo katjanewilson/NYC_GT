@@ -1,0 +1,14 @@
+down-the-rabbit-hole
+the-pool-of-tears
+a-caucus-race-and-a-long-tale
+introduction
+descriptive
+tab:unnamed-chunk-1
+tab:unnamed-chunk-3
+research-question
+data-overview
+data-cleaning
+visualizing-the-treatment-gt-option
+raw-differences-in-outcome-and-covariates
+naive-regression-models-without-matching
+causal

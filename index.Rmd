@@ -1,9 +1,9 @@
 --- 
-title: "YOUR TITLE HERE"
+title: "GT"
 author: "YOUR NAME HERE"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
 
-# Down the rabbit-hole
+# Introduction
 
