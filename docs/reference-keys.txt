@@ -34,3 +34,4 @@ sutva-assumption
 propensity-scores
 ignorability-assumption
 further-notes-on-assumptions
+part-7-simulation
