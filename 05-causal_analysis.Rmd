@@ -33,42 +33,14 @@ data <- data %>%
          Percent_Chron_Absent = `% Chronically Absent`,
          PercentMale= `% Male`)
 small <- data %>%
-  select(DBN, `School Name`, class_option, `3 2019.y`, `4 2019.y`, `5 2019.y`,
-         `3 2019.x`, `4 2019.x`, `5 2019.x`, borough, school_type, TotalEnrollment,
-         ENI, PercentMale, PercentSWD, PercentPoverty, PercentBlack,
-         PercentELL, PercentAsian, PercentHispanic, Percent_Attendance, Percent_Chron_Absent) %>%
   mutate(GT_option = case_when(class_option %in% c("GT", "SC and GT") ~ "gifted option",
                                class_option %in% c("no option", "SC") ~ "no gifted option"),
          SC_option = case_when(class_option %in% c("SC", "SC and GT") ~ "SC option",
                                class_option %in% c("no option", "GT") ~ "no SC option"),
          treatment = ifelse(GT_option == "gifted option", 1, 0))
 
-small$`3 2019.ela` <-gsub(",","",small$`3 2019.y`,fixed = TRUE)
-small$`3 2019.math` <-gsub(",","",small$`3 2019.x`,fixed = TRUE)
-
 ```
 
-```{r message=FALSE, warning=FALSE}
-
-library(MatchIt)
-library(cobalt)
-school_nearest <- matchit(formula = treatment ~ ENI + PercentBlack +
-                            TotalEnrollment + PercentSWD, 
-                           data = small,
-                          method = "nearest",
-                           family = "binomial",
-                          caliper = 0.25,
-                          ratio = 6)
-
-## balance improvement
-bal.tab(school_nearest, m.threshold = 0.1)
-bal.plot(school_nearest, var.name = 'TotalEnrollment', which = "both")
-bal.plot(school_nearest, var.name = 'PercentBlack', which = "both")
-bal.plot(school_nearest, var.name = 'PercentSWD', which = "both")
-bal.plot(school_nearest, var.name = 'ENI', which = "both")
-
-
-```
 $$
 \begin{align}
 ELA_scores = \beta_0 +\beta_1GTOption + \epsilon
