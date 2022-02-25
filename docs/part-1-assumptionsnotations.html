@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="motivation.html"/>
-<link rel="next" href="part-1-descriptive-analysis.html"/>
+<link rel="next" href="part-2-descriptive-analysis.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -78,17 +78,18 @@
 <li class="chapter" data-level="3" data-path="part-1-assumptionsnotations.html"><a href="part-1-assumptionsnotations.html"><i class="fa fa-check"></i><b>3</b> Part 1: Assumptions/Notations</a>
 <ul>
 <li class="chapter" data-level="3.0.1" data-path="part-1-assumptionsnotations.html"><a href="part-1-assumptionsnotations.html#review-of-causal-rules-for-ignorabilitycovariate-selection"><i class="fa fa-check"></i><b>3.0.1</b> Review of Causal rules for ignorability/covariate selection</a></li>
+<li class="chapter" data-level="3.0.2" data-path="part-1-assumptionsnotations.html"><a href="part-1-assumptionsnotations.html#ignorability"><i class="fa fa-check"></i><b>3.0.2</b> Ignorability</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="part-1-descriptive-analysis.html"><a href="part-1-descriptive-analysis.html"><i class="fa fa-check"></i><b>4</b> Part 1: Descriptive Analysis</a>
+<li class="chapter" data-level="4" data-path="part-2-descriptive-analysis.html"><a href="part-2-descriptive-analysis.html"><i class="fa fa-check"></i><b>4</b> Part 2: Descriptive Analysis</a>
 <ul>
-<li class="chapter" data-level="4.0.1" data-path="part-1-descriptive-analysis.html"><a href="part-1-descriptive-analysis.html#data-cleaning"><i class="fa fa-check"></i><b>4.0.1</b> Data cleaning</a></li>
-<li class="chapter" data-level="4.0.2" data-path="part-1-descriptive-analysis.html"><a href="part-1-descriptive-analysis.html#visualizing-the-treatment-gt-option"><i class="fa fa-check"></i><b>4.0.2</b> Visualizing the Treatment (GT option)</a></li>
-<li class="chapter" data-level="4.0.3" data-path="part-1-descriptive-analysis.html"><a href="part-1-descriptive-analysis.html#raw-differences-in-outcome-and-covariates"><i class="fa fa-check"></i><b>4.0.3</b> Raw Differences in Outcome and Covariates</a></li>
-<li class="chapter" data-level="4.0.4" data-path="part-1-descriptive-analysis.html"><a href="part-1-descriptive-analysis.html#correlation-of-covariates"><i class="fa fa-check"></i><b>4.0.4</b> Correlation of covariates</a></li>
-<li class="chapter" data-level="4.0.5" data-path="part-1-descriptive-analysis.html"><a href="part-1-descriptive-analysis.html#naive-regression-models-without-matching"><i class="fa fa-check"></i><b>4.0.5</b> Naive regression models (without matching)</a></li>
+<li class="chapter" data-level="4.0.1" data-path="part-2-descriptive-analysis.html"><a href="part-2-descriptive-analysis.html#data-cleaning"><i class="fa fa-check"></i><b>4.0.1</b> Data cleaning</a></li>
+<li class="chapter" data-level="4.0.2" data-path="part-2-descriptive-analysis.html"><a href="part-2-descriptive-analysis.html#visualizing-the-treatment-gt-option"><i class="fa fa-check"></i><b>4.0.2</b> Visualizing the Treatment (GT option)</a></li>
+<li class="chapter" data-level="4.0.3" data-path="part-2-descriptive-analysis.html"><a href="part-2-descriptive-analysis.html#raw-differences-in-outcome-and-covariates"><i class="fa fa-check"></i><b>4.0.3</b> Raw Differences in Outcome and Covariates</a></li>
+<li class="chapter" data-level="4.0.4" data-path="part-2-descriptive-analysis.html"><a href="part-2-descriptive-analysis.html#correlation-of-covariates"><i class="fa fa-check"></i><b>4.0.4</b> Correlation of covariates</a></li>
+<li class="chapter" data-level="4.0.5" data-path="part-2-descriptive-analysis.html"><a href="part-2-descriptive-analysis.html#naive-regression-models-without-matching"><i class="fa fa-check"></i><b>4.0.5</b> Naive regression models (without matching)</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="part-2-causal-inference.html"><a href="part-2-causal-inference.html"><i class="fa fa-check"></i><b>5</b> Part 2: Causal Inference</a></li>
-<li class="chapter" data-level="6" data-path="part-3-geospatial-analysis.html"><a href="part-3-geospatial-analysis.html"><i class="fa fa-check"></i><b>6</b> Part 3: GeoSpatial Analysis</a></li>
+<li class="chapter" data-level="5" data-path="part-3-causal-inference.html"><a href="part-3-causal-inference.html"><i class="fa fa-check"></i><b>5</b> Part 3: Causal Inference</a></li>
+<li class="chapter" data-level="6" data-path="part-4-geospatial-analysis.html"><a href="part-4-geospatial-analysis.html"><i class="fa fa-check"></i><b>6</b> Part 4: GeoSpatial Analysis</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -112,10 +113,19 @@
 <h1><span class="header-section-number">3</span> Part 1: Assumptions/Notations</h1>
 <div id="review-of-causal-rules-for-ignorabilitycovariate-selection" class="section level3" number="3.0.1">
 <h3><span class="header-section-number">3.0.1</span> Review of Causal rules for ignorability/covariate selection</h3>
-<p>Fundamental Problem of Causal Inference: We can’t observe both students in a GT school and not in a GT school
-Two potential outcomes: ELA and Math scores in or not in a school with GT option</p>
-<div id="assignment-mechanism" class="section level4" number="3.0.1.1">
-<h4><span class="header-section-number">3.0.1.1</span> Assignment Mechanism</h4>
+<p>Fundamental Problem of Causal Inference: We can’t observe two things at once. We can’t observe both students in a GT school and not in a GT school.</p>
+<p>Two potential outcomes: ELA and Math scores in or not in a school with GT option.</p>
+<p><span class="math inline">\(Y_0i\)</span> is the potential outcome (test scores) for school i without the treatment.</p>
+<p><span class="math inline">\(Y_1i\)</span> is the potential outcome (test scores) for school i with the treatment.</p>
+<p>The individual school treatment effect:
+<span class="math inline">\(Y_1i - Y_0i\)</span></p>
+<p>Due to the fundamental problem of causal inference, we can only observe one of the potential outcomes. So instead of estimating the individual school treatment effect, we estiamte the ATE (Average Treatment Effect), which is given by</p>
+<p><span class="math display">\[ATE = E[Y_1-Y_0]\]</span></p>
+</div>
+<div id="ignorability" class="section level3" number="3.0.2">
+<h3><span class="header-section-number">3.0.2</span> Ignorability</h3>
+<div id="assignment-mechanism" class="section level4" number="3.0.2.1">
+<h4><span class="header-section-number">3.0.2.1</span> Assignment Mechanism</h4>
 <p>Ignorability: all variables affecting both Treatment and Outcome are obserbed and controlled for. And that the potential outcomes are independnet of treatment once we control for these features. So, treatment has no other effect on the potential outcome through some backchalnngel.
 Positivity: every obserbation has a positibe chance of being in the treatment or control group.</p>
 
@@ -128,7 +138,7 @@ Positivity: every obserbation has a positibe chance of being in the treatment or
         </div>
       </div>
 <a href="motivation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="part-1-descriptive-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="part-2-descriptive-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -182,6 +192,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

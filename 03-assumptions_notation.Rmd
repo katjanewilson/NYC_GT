@@ -1,10 +1,26 @@
 # Part 1: Assumptions/Notations
 
 
-### Review of Causal rules for ignorability/covariate selection
+### Review of ATE and Fundamental Problem
 
-Fundamental Problem of Causal Inference: We can't observe both students in a GT school and not in a GT school
-Two potential outcomes: ELA and Math scores in or not in a school with GT option
+The fundamental problem of causal inference is that we can't observe two things at once. We can't observe student's scores in school with a GT option, and those same student's scores in a school without a GT option. Instead, there are two potential outcomes: ELA and Math scores in or not in a school with GT option, which are given by:
+
+$Y_0i$ is the potential outcome (test scores) for school i without the treatment.
+
+$Y_1i$ is the potential outcome (test scores) for school i with the treatment.
+
+We can't estimate the individual school treatment effect,
+$Y_1i - Y_0i$
+
+because we only observe one of the potential outcomes. So instead of estimating the individual school treatment effect, we estimate the ATE (Average Treatment Effect), which is given by
+
+$$ATE = E[Y_1-Y_0]$$
+
+### Graphical Causal Models
+
+### SUTVA Assumption
+
+The Stable Unit Treatment Value Assuimption holds that there exists only one version of the treatment, and that no interference among treatment and control is at play. The second, the assumption of ignorability, states that all confoudning covariates are meaus
 
 #### Assignment Mechanism
 

@@ -27,3 +27,4 @@ assignment-mechanism
 part-2-descriptive-analysis
 part-3-causal-inference
 part-4-geospatial-analysis
+ignorability
