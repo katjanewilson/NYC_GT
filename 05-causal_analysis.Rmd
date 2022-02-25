@@ -1,4 +1,6 @@
-# Part 3: Causal Inference
+# Causal Inference
+
+### Matching
 
 Given that the groups are imbalanced (GT option schools are more likely to be high income, less SWD, more students), can we balance the groups to get the ATE of the GT option on ELA and MATH scores?
 
@@ -82,3 +84,12 @@ summary(model_n)
 
 
 ```
+
+
+### Heterogeneous Treatment Effects
+
+
+### Within Borough Matching
+
+
+### Outcome Models

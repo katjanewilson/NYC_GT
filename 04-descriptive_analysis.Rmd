@@ -1,4 +1,4 @@
-# Part 2: Descriptive Analysis
+# Descriptive Analysis
 
 What predicts existence of the GT option? How are covariates correlated with both the outcome and the treatment assignment?
 

@@ -1,1 +1,14 @@
-# Part 7: Simulation
+# Simulation
+
+### Estimators
+
+Three categories of estimators: estimators that model sample selection (propensity scores), estimators that model the outcome directly, and estimators that model both the sample selection and the outcome
+
+* IPW
+* BART
+* Outcome Modeling 
+* Weight Trimming
+* Doubly Robust Methods
+
+Interaction of weights with multi-level matching
+

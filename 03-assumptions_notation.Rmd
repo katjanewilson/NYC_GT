@@ -1,4 +1,4 @@
-# Part 1: Assumptions/Notations
+# Assumptions/Notations
 
 
 ### Review of ATE and Fundamental Problem

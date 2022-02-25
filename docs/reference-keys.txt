@@ -35,3 +35,13 @@ propensity-scores
 ignorability-assumption
 further-notes-on-assumptions
 part-7-simulation
+descriptive-analysis
+causal-inference
+simulation
+assumptionsnotations
+geospatial-analysis
+matching
+heterogeneous-treatment-effects
+within-borough-matching
+outcome-models
+estimators
