@@ -19,3 +19,11 @@ motivation
 part-2-causal
 part-3-geospatial-analysis
 part-2-causal-inference
+tab:unnamed-chunk-5
+covariates-of-gt-and-no-gt-options
+tab:unnamed-chunk-4
+part-1-assumptionsnotations
+assignment-mechanism
+part-2-descriptive-analysis
+part-3-causal-inference
+part-4-geospatial-analysis

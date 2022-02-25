@@ -1,0 +1,12 @@
+# Part 1: Assumptions/Notations
+
+
+### Review of Causal rules for ignorability/covariate selection
+
+Fundamental Problem of Causal Inference: We can't observe both students in a GT school and not in a GT school
+Two potential outcomes: ELA and Math scores in or not in a school with GT option
+
+#### Assignment Mechanism
+
+Ignorability:  all variables affecting both Treatment and Outcome are obserbed and controlled for. And that the potential outcomes are independnet of treatment once we control for these features. So, treatment has no other effect on the potential outcome through some backchalnngel.
+Positivity: every obserbation has a positibe chance of being in the treatment or control group. 

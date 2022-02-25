@@ -1,8 +1,6 @@
-# Part 1: Descriptive Analysis
+# Part 2: Descriptive Analysis
 
-
-How does Gifted and Talented affect student test scores?
-
+What predicts existence of the GT option? How are covariates correlated with both the outcome and the treatment assignment?
 
 ### Data cleaning
 
@@ -110,14 +108,7 @@ small %>%
    kable(caption = "Outcome Differences by Treatment",
         col.names= c("Treatment", "Mean ELA", "Mean Math"),
         digits = c(0,2,2))
-# 
-# table(small$GT_option)
-### GT Option by Economic Need, Poverty, Enrollment
-small%>%
-  group_by(GT_option) %>%
-  summarise(mean_ec = mean(ENI),
-            mean_poverty = mean(PercentPoverty),
-            total = mean(TotalEnrollment))
+
 #### GT Option by Borough
 ### boroughs
 small %>%
@@ -134,9 +125,21 @@ small %>%
             mean_poverty = mean(PercentPoverty),
             total = mean(TotalEnrollment))
 ```
+Notice that the two groups are not equal on all other factors. All of these differences between groups are statistically significant. 
+
+```{r message=FALSE, warning=FALSE}
+school_covariates <- c('ENI', 'PercentBlack', 'PercentSWD', 'PercentPoverty', 'TotalEnrollment')
+small %>%
+  group_by(treatment) %>%
+  select(one_of(school_covariates)) %>%
+  summarise_all(funs(mean(., na.rm=T)))%>%
+  kable(caption = "Covariate Differences by Treatment",
+        col.names= c("Treatment", "ENI", "Percent Black",
+                     "PercentSWD", "Percent Poverty", "Total Enrollment"),
+        digits = c(0,2,3,2,3, 3))
+```
 
 ### Correlation of covariates
-
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 colnames(small)
@@ -160,17 +163,13 @@ df2 = as.data.frame(sapply(cor_set, as.numeric))
 
 ```
 
-
-### Review of Causal rules for ignorability/covariate selection
-
-
 ### Naive regression models (without matching)
 
 Treatment (GT) higher ELA and Math scores
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-mod <- lm(`3 2019.ela` ~ treatment + ENI, data =small)
+mod <- lm(`3 2019.ela` ~ treatment, data =small)
 summary(mod)
 table(small$treatment)
 mod <- lm(`3 2019.math` ~ treatment, data =small)
