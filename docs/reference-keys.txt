@@ -28,3 +28,9 @@ part-2-descriptive-analysis
 part-3-causal-inference
 part-4-geospatial-analysis
 ignorability
+review-of-ate-and-fundamental-problem
+graphical-causal-models
+sutva-assumption
+propensity-scores
+ignorability-assumption
+further-notes-on-assumptions

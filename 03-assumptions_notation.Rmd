@@ -20,9 +20,39 @@ $$ATE = E[Y_1-Y_0]$$
 
 ### SUTVA Assumption
 
-The Stable Unit Treatment Value Assuimption holds that there exists only one version of the treatment, and that no interference among treatment and control is at play. The second, the assumption of ignorability, states that all confoudning covariates are meaus
+The Stable Unit Treatment Value Assuimption holds that there exists only one version of the treatment, and that no interference among treatment and control is at play. In other words, the potential outcomes $$Y_i = (Y_i(1), Y_i(0)) of school i, i =1, ..., N$$ depend only on treatment assigned to school i and not on treatment assigned to school j. Additionally, there is not interference among schools.
 
-#### Assignment Mechanism
+Consider SUTVA:
 
-Ignorability:  all variables affecting both Treatment and Outcome are obserbed and controlled for. And that the potential outcomes are independnet of treatment once we control for these features. So, treatment has no other effect on the potential outcome through some backchalnngel.
-Positivity: every obserbation has a positibe chance of being in the treatment or control group. 
+* only one version of the treatment: GT or not
+* treatment version is always the same in every school
+* could there be interference? often refers to spillover effects from student to student. This analysis is at school level. Many schools are co-located. However, logistical decisions often create situations where studetns do not interact. Consider companies located in the same building and different cultures
+
+### Ignorability Assumption
+
+The second, the assumption of strong ignorability, states that all confoudning covariates are meausured, and that every subject (every school in this case) has a positive probability of being in the treatment group. When treatment assignment is strongly ignorable, then potential outcomes $$Y_i = (Y_i(1),Y_i(0))$$ are conditionally independent of the treatment assignment indiciator W, given the estimated propensity scores. Under sampling ignorability, the treatment effect $$\delta = Y(1) - y(0)$$ is conditionally independent of both treatment assignment and sample selection, given the propensity scores. Additionallky, if sample selection is strongly ignorable, the idstribution of X in the sample and population sahred common support, so that every school in the sample (population) has a comparison school in the population (sample) and no school has an estiamted propensity score of zero. Common support is crucial! Schools that are beyond the range of common support are extrapolated.
+
+Consider Ignorability:
+
+
+* measure all possible confoudning covariates (any others would have to be sig. related to treatment and outcome)
+* every school has a positive probaility of being in the treatment group. GT is a district wide program. 
+* can students self select into a school with a GT program? If students can self select into schools with a GT program, treatment assignment is not random. No, students are assigned schools based on zip code.
+* would probability of having a GT option be not random? Yes, it does vary based on covariates, which we match on.
+
+
+### Further notes on assumptions
+
+Sampling ignorability is difficult to test in practice. Researchers generally choose covariates based on prior empirical evidence or theoretical considerations
+
+#### Propensity Scores
+
+Let X denote a vector of observable covariates, such as continuous variables like percent students with disabilities, and total enrollment. The sampling propensity score is the conditional probability of selection into the sample, given the observable covariates X:
+
+$$s(X) = Pr(Z=1|X)$$
+
+Propensity scores serve as blanacing scores, so schools with similar propensity scores have similar distributions in the covariates used to estimate the propensity scores (cite). Estimate the propensity score by a logistic regression given by
+
+$$logit(s(X)) = log(s(X)/1-s(X)) = \beta_0 + \beta_1{X_1} +\beta_2{X_2} + ... + \beta_k{X_k} $$
+
+

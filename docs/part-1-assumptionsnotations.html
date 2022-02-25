@@ -77,8 +77,11 @@
 <li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a></li>
 <li class="chapter" data-level="3" data-path="part-1-assumptionsnotations.html"><a href="part-1-assumptionsnotations.html"><i class="fa fa-check"></i><b>3</b> Part 1: Assumptions/Notations</a>
 <ul>
-<li class="chapter" data-level="3.0.1" data-path="part-1-assumptionsnotations.html"><a href="part-1-assumptionsnotations.html#review-of-causal-rules-for-ignorabilitycovariate-selection"><i class="fa fa-check"></i><b>3.0.1</b> Review of Causal rules for ignorability/covariate selection</a></li>
-<li class="chapter" data-level="3.0.2" data-path="part-1-assumptionsnotations.html"><a href="part-1-assumptionsnotations.html#ignorability"><i class="fa fa-check"></i><b>3.0.2</b> Ignorability</a></li>
+<li class="chapter" data-level="3.0.1" data-path="part-1-assumptionsnotations.html"><a href="part-1-assumptionsnotations.html#review-of-ate-and-fundamental-problem"><i class="fa fa-check"></i><b>3.0.1</b> Review of ATE and Fundamental Problem</a></li>
+<li class="chapter" data-level="3.0.2" data-path="part-1-assumptionsnotations.html"><a href="part-1-assumptionsnotations.html#graphical-causal-models"><i class="fa fa-check"></i><b>3.0.2</b> Graphical Causal Models</a></li>
+<li class="chapter" data-level="3.0.3" data-path="part-1-assumptionsnotations.html"><a href="part-1-assumptionsnotations.html#sutva-assumption"><i class="fa fa-check"></i><b>3.0.3</b> SUTVA Assumption</a></li>
+<li class="chapter" data-level="3.0.4" data-path="part-1-assumptionsnotations.html"><a href="part-1-assumptionsnotations.html#ignorability-assumption"><i class="fa fa-check"></i><b>3.0.4</b> Ignorability Assumption</a></li>
+<li class="chapter" data-level="3.0.5" data-path="part-1-assumptionsnotations.html"><a href="part-1-assumptionsnotations.html#further-notes-on-assumptions"><i class="fa fa-check"></i><b>3.0.5</b> Further notes on assumptions</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="part-2-descriptive-analysis.html"><a href="part-2-descriptive-analysis.html"><i class="fa fa-check"></i><b>4</b> Part 2: Descriptive Analysis</a>
 <ul>
@@ -111,23 +114,49 @@
             <section class="normal" id="section-">
 <div id="part-1-assumptionsnotations" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Part 1: Assumptions/Notations</h1>
-<div id="review-of-causal-rules-for-ignorabilitycovariate-selection" class="section level3" number="3.0.1">
-<h3><span class="header-section-number">3.0.1</span> Review of Causal rules for ignorability/covariate selection</h3>
-<p>Fundamental Problem of Causal Inference: We can’t observe two things at once. We can’t observe both students in a GT school and not in a GT school.</p>
-<p>Two potential outcomes: ELA and Math scores in or not in a school with GT option.</p>
+<div id="review-of-ate-and-fundamental-problem" class="section level3" number="3.0.1">
+<h3><span class="header-section-number">3.0.1</span> Review of ATE and Fundamental Problem</h3>
+<p>The fundamental problem of causal inference is that we can’t observe two things at once. We can’t observe student’s scores in school with a GT option, and those same student’s scores in a school without a GT option. Instead, there are two potential outcomes: ELA and Math scores in or not in a school with GT option, which are given by:</p>
 <p><span class="math inline">\(Y_0i\)</span> is the potential outcome (test scores) for school i without the treatment.</p>
 <p><span class="math inline">\(Y_1i\)</span> is the potential outcome (test scores) for school i with the treatment.</p>
-<p>The individual school treatment effect:
+<p>We can’t estimate the individual school treatment effect,
 <span class="math inline">\(Y_1i - Y_0i\)</span></p>
-<p>Due to the fundamental problem of causal inference, we can only observe one of the potential outcomes. So instead of estimating the individual school treatment effect, we estiamte the ATE (Average Treatment Effect), which is given by</p>
+<p>because we only observe one of the potential outcomes. So instead of estimating the individual school treatment effect, we estimate the ATE (Average Treatment Effect), which is given by</p>
 <p><span class="math display">\[ATE = E[Y_1-Y_0]\]</span></p>
 </div>
-<div id="ignorability" class="section level3" number="3.0.2">
-<h3><span class="header-section-number">3.0.2</span> Ignorability</h3>
-<div id="assignment-mechanism" class="section level4" number="3.0.2.1">
-<h4><span class="header-section-number">3.0.2.1</span> Assignment Mechanism</h4>
-<p>Ignorability: all variables affecting both Treatment and Outcome are obserbed and controlled for. And that the potential outcomes are independnet of treatment once we control for these features. So, treatment has no other effect on the potential outcome through some backchalnngel.
-Positivity: every obserbation has a positibe chance of being in the treatment or control group.</p>
+<div id="graphical-causal-models" class="section level3" number="3.0.2">
+<h3><span class="header-section-number">3.0.2</span> Graphical Causal Models</h3>
+</div>
+<div id="sutva-assumption" class="section level3" number="3.0.3">
+<h3><span class="header-section-number">3.0.3</span> SUTVA Assumption</h3>
+<p>The Stable Unit Treatment Value Assuimption holds that there exists only one version of the treatment, and that no interference among treatment and control is at play. In other words, the potential outcomes <span class="math display">\[Y_i = (Y_i(1), Y_i(0)) of school i, i =1, ..., N\]</span> depend only on treatment assigned to school i and not on treatment assigned to school j. Additionally, there is not interference among schools.</p>
+<p>Consider SUTVA:</p>
+<ul>
+<li>only one version of the treatment: GT or not</li>
+<li>treatment version is always the same in every school</li>
+<li>could there be interference? often refers to spillover effects from student to student. This analysis is at school level. Many schools are co-located. However, logistical decisions often create situations where studetns do not interact. Consider companies located in the same building and different cultures</li>
+</ul>
+</div>
+<div id="ignorability-assumption" class="section level3" number="3.0.4">
+<h3><span class="header-section-number">3.0.4</span> Ignorability Assumption</h3>
+<p>The second, the assumption of strong ignorability, states that all confoudning covariates are meausured, and that every subject (every school in this case) has a positive probability of being in the treatment group. When treatment assignment is strongly ignorable, then potential outcomes <span class="math display">\[Y_i = (Y_i(1),Y_i(0))\]</span> are conditionally independent of the treatment assignment indiciator W, given the estimated propensity scores. Under sampling ignorability, the treatment effect <span class="math display">\[\delta = Y(1) - y(0)\]</span> is conditionally independent of both treatment assignment and sample selection, given the propensity scores. Additionallky, if sample selection is strongly ignorable, the idstribution of X in the sample and population sahred common support, so that every school in the sample (population) has a comparison school in the population (sample) and no school has an estiamted propensity score of zero. Common support is crucial! Schools that are beyond the range of common support are extrapolated.</p>
+<p>Consider Ignorability:</p>
+<ul>
+<li>measure all possible confoudning covariates (any others would have to be sig. related to treatment and outcome)</li>
+<li>every school has a positive probaility of being in the treatment group. GT is a district wide program.</li>
+<li>can students self select into a school with a GT program? If students can self select into schools with a GT program, treatment assignment is not random. No, students are assigned schools based on zip code.</li>
+<li>would probability of having a GT option be not random? Yes, it does vary based on covariates, which we match on.</li>
+</ul>
+</div>
+<div id="further-notes-on-assumptions" class="section level3" number="3.0.5">
+<h3><span class="header-section-number">3.0.5</span> Further notes on assumptions</h3>
+<p>Sampling ignorability is difficult to test in practice. Researchers generally choose covariates based on prior empirical evidence or theoretical considerations</p>
+<div id="propensity-scores" class="section level4" number="3.0.5.1">
+<h4><span class="header-section-number">3.0.5.1</span> Propensity Scores</h4>
+<p>Let X denote a vector of observable covariates, such as continuous variables like percent students with disabilities, and total enrollment. The sampling propensity score is the conditional probability of selection into the sample, given the observable covariates X:</p>
+<p><span class="math display">\[s(X) = Pr(Z=1|X)\]</span></p>
+<p>Propensity scores serve as blanacing scores, so schools with similar propensity scores have similar distributions in the covariates used to estimate the propensity scores (cite). Estimate the propensity score by a logistic regression given by</p>
+<p><span class="math display">\[logit(s(X)) = log(s(X)/1-s(X)) = \beta_0 + \beta_1{X_1} +\beta_2{X_2} + ... + \beta_k{X_k} \]</span></p>
 
 </div>
 </div>
