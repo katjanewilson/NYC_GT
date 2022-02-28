@@ -1,17 +1,8 @@
-# Simulation
+# Simulation and Loops
 
-### Estimators
+### ATE results Loop
 
-Three categories of estimators: estimators that model sample selection (propensity scores), estimators that model the outcome directly, and estimators that model both the sample selection and the outcome
-
-* IPW
-* BART
-* Outcome Modeling 
-* Weight Trimming
-* Doubly Robust Methods
-
-* Interaction of weights with multi-level matching... how bias/precision is affected
-* Generalizability to different DVs (quant optimal/policy relevant)
+Do the ATE results hold for different DVs, across grade levels and years?
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 #install and load packages
@@ -80,9 +71,7 @@ dv_results <- as.data.frame(do.call(rbind, empty_list))
 ```
 
 
-#### DV results
-
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 df <- dv_results %>%
   separate(year, c("Year", "Subject")) %>%
@@ -92,12 +81,74 @@ df <- dv_results %>%
   mutate(sig = ifelse(p.value < .001, "*", " "))
 
 df %>%
+  filter(Subject == "English") %>%
   ggplot(aes(x= as.numeric(Year), y= as.numeric(unmatched_regression_estimate), 
             group = as.factor(grade), color = as.factor(grade))) +
-  geom_point() +
-  geom_line()
+  geom_point(aes(shape = sig, size = 3)) +
+  scale_shape_manual(values = c(1,8))+
+  geom_line() +
+  ylab("Estimate of English Score Increase")+
+  xlab("School Year") +
+  theme_minimal() +
+  ggtitle("Matched Estimates of GT on English Scores \n for Grades 3-6 over Years 2014-2018") +
+  guides(color = guide_legend("Grade")) +
+  labs(caption = "Matched Estimates on 5 Covariates, sig tested at <.001 level \n
+       * denotes significant effects") +
+  theme(axis.title = element_text(size = 18),
+        axis.text.x = element_text(size = 12, vjust =6),
+        axis.ticks.x = element_blank(),
+        legend.text = element_text(size = 18),
+        legend.title = element_text(size = 18),
+        axis.ticks.y = element_blank(),
+        strip.text = element_text(size = 18)) +
+  scale_x_discrete(limits = c(2013, 2014, 2015, 2016, 2017, 2018, 2019)) 
+
+df %>%
+  filter(Subject == "Math") %>%
+  ggplot(aes(x= as.numeric(Year), y= as.numeric(unmatched_regression_estimate), 
+            group = as.factor(grade), color = as.factor(grade))) +
+  geom_point(aes(shape = sig, size = 3)) +
+  scale_shape_manual(values = c(1,8))+
+  geom_line() +
+  ylab("Estimate of Math Score Increase")+
+  xlab("School Year") +
+  theme_minimal() +
+  ggtitle("Matched Estimates of GT on Math Scores \n for Grades 3-6 over Years 2014-2018") +
+  guides(color = guide_legend("Grade")) +
+  labs(caption = "Matched Estimates on 5 Covariates, sig tested at <.001 level \n
+       * denotes significant effects") +
+  theme(axis.title = element_text(size = 18),
+        axis.text.x = element_text(size = 12, vjust =6),
+        axis.ticks.x = element_blank(),
+        legend.text = element_text(size = 18),
+        legend.title = element_text(size = 18),
+        axis.ticks.y = element_blank(),
+        strip.text = element_text(size = 18)) +
+  scale_x_discrete(limits = c(2013, 2014, 2015, 2016, 2017, 2018, 2019)) 
 
 ```
+
+
+
+
+### Group structured data (when the data has a multilevel structure)
+
+
+
+
+### Estimators
+
+Three categories of estimators: estimators that model sample selection (propensity scores), estimators that model the outcome directly, and estimators that model both the sample selection and the outcome
+
+* IPW
+* BART
+* Outcome Modeling 
+* Weight Trimming
+* Doubly Robust Methods
+
+* Interaction of weights with multi-level matching... how bias/precision is affected
+* Generalizability to different DVs (quant optimal/policy relevant)
+
 
 
 

@@ -45,6 +45,20 @@ Consider Ignorability:
 
 Sampling ignorability is difficult to test in practice. Researchers generally choose covariates based on prior empirical evidence or theoretical considerations
 
+
+### Regression Adjustment
+
+Regression adjustment, or "model-based imputation" uses a regression model to impute missing potential outcomes. These potential outcomes are the English/Math scores of the school if there were/were not the treatment.
+
+
+### IPTW
+
+### BART
+
+### ATT vs. ATE
+
+The ATT is the Average Treatment Effect of the Treated vs. Average Treatment Effect. ATT is the effect of the treatment actually applied... so the effect of schools that have the GT option. ATE tells how much the typical school would have gained. ATT is how much the typical school with GT does gain by having GT option.
+
 #### Propensity Scores
 
 Let X denote a vector of observable covariates, such as continuous variables like percent students with disabilities, and total enrollment. The sampling propensity score is the conditional probability of selection into the sample, given the observable covariates X:

@@ -24,7 +24,7 @@
 <meta name="author" content="Katherine Wilson and Jess Huang" />
 
 
-<meta name="date" content="2022-02-25" />
+<meta name="date" content="2022-02-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -233,10 +233,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-6"><a href="simulation.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sig =</span> <span class="fu">ifelse</span>(p.value <span class="sc">&lt;</span> .<span class="dv">001</span>, <span class="st">&quot;*&quot;</span>, <span class="st">&quot; &quot;</span>))</span>
 <span id="cb2-7"><a href="simulation.html#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="simulation.html#cb2-8" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb2-9"><a href="simulation.html#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="fu">as.numeric</span>(Year), <span class="at">y=</span> <span class="fu">as.numeric</span>(unmatched_regression_estimate), </span>
-<span id="cb2-10"><a href="simulation.html#cb2-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">group =</span> <span class="fu">as.factor</span>(grade), <span class="at">color =</span> <span class="fu">as.factor</span>(grade))) <span class="sc">+</span></span>
-<span id="cb2-11"><a href="simulation.html#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb2-12"><a href="simulation.html#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<span id="cb2-9"><a href="simulation.html#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Subject <span class="sc">==</span> <span class="st">&quot;English&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-10"><a href="simulation.html#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="fu">as.numeric</span>(Year), <span class="at">y=</span> <span class="fu">as.numeric</span>(unmatched_regression_estimate), </span>
+<span id="cb2-11"><a href="simulation.html#cb2-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">group =</span> <span class="fu">as.factor</span>(grade), <span class="at">color =</span> <span class="fu">as.factor</span>(grade))) <span class="sc">+</span></span>
+<span id="cb2-12"><a href="simulation.html#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> sig, <span class="at">size =</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb2-13"><a href="simulation.html#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>))<span class="sc">+</span></span>
+<span id="cb2-14"><a href="simulation.html#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb2-15"><a href="simulation.html#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Estimate of English Score Increase&quot;</span>)<span class="sc">+</span></span>
+<span id="cb2-16"><a href="simulation.html#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;School Year&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-17"><a href="simulation.html#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-18"><a href="simulation.html#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Matched Estimates of GT on English Scores </span><span class="sc">\n</span><span class="st"> for Grades 3-6 over Years 2014-2018&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-19"><a href="simulation.html#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="st">&quot;Grade&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb2-20"><a href="simulation.html#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">&quot;Matched Estimates on 5 Covariates, sig tested at &lt;.001 level </span><span class="sc">\n</span></span>
+<span id="cb2-21"><a href="simulation.html#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="st">       * denotes significant effects&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-22"><a href="simulation.html#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>),</span>
+<span id="cb2-23"><a href="simulation.html#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">vjust =</span><span class="dv">6</span>),</span>
+<span id="cb2-24"><a href="simulation.html#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-25"><a href="simulation.html#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>),</span>
+<span id="cb2-26"><a href="simulation.html#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>),</span>
+<span id="cb2-27"><a href="simulation.html#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-28"><a href="simulation.html#cb2-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>)) <span class="sc">+</span></span>
+<span id="cb2-29"><a href="simulation.html#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">2013</span>, <span class="dv">2014</span>, <span class="dv">2015</span>, <span class="dv">2016</span>, <span class="dv">2018</span>, <span class="dv">2019</span>)) </span></code></pre></div>
+<pre><code>## Warning: Continuous limits supplied to discrete scale.
+## Did you mean `limits = factor(...)` or `scale_*_continuous()`?</code></pre>
 <p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 
 </div>

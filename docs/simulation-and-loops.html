@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | GT</title>
-  <meta name="description" content="Page not found | GT" />
+  <title>7 Simulation and Loops | GT</title>
+  <meta name="description" content="7 Simulation and Loops | GT" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | GT" />
+  <meta property="og:title" content="7 Simulation and Loops | GT" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | GT" />
+  <meta name="twitter:title" content="7 Simulation and Loops | GT" />
   
   
   
@@ -31,7 +31,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
+<link rel="prev" href="geospatial-analysis.html"/>
 
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -195,18 +195,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="simulation-and-loops" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Simulation and Loops</h1>
+<div id="ate-results-loop" class="section level3" number="7.0.1">
+<h3><span class="header-section-number">7.0.1</span> ATE results Loop</h3>
+<p>Do the ATE results hold for different DVs, across grade levels and years?</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="simulation-and-loops.html#cb1-1" aria-hidden="true" tabindex="-1"></a>grade_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;6&quot;</span>)</span>
+<span id="cb1-2"><a href="simulation-and-loops.html#cb1-2" aria-hidden="true" tabindex="-1"></a>year_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;2013.y&#39;</span>, <span class="st">&#39;2014.y&#39;</span>, <span class="st">&#39;2015.y&#39;</span>, <span class="st">&#39;2016.y&#39;</span>, <span class="st">&#39;2017.y&#39;</span>, <span class="st">&#39;2018.y&#39;</span>, <span class="st">&#39;2019.y&#39;</span>,</span>
+<span id="cb1-3"><a href="simulation-and-loops.html#cb1-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;2013.x&#39;</span>, <span class="st">&#39;2014.x&#39;</span>, <span class="st">&#39;2015.x&#39;</span>, <span class="st">&#39;2016.x&#39;</span>, <span class="st">&#39;2017.x&#39;</span>, <span class="st">&#39;2018.x&#39;</span>, <span class="st">&#39;2019.x&#39;</span>)</span>
+<span id="cb1-4"><a href="simulation-and-loops.html#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="simulation-and-loops.html#cb1-5" aria-hidden="true" tabindex="-1"></a>empty_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb1-6"><a href="simulation-and-loops.html#cb1-6" aria-hidden="true" tabindex="-1"></a>year_list<span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb1-7"><a href="simulation-and-loops.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grade_vector)) {</span>
+<span id="cb1-8"><a href="simulation-and-loops.html#cb1-8" aria-hidden="true" tabindex="-1"></a>grade <span class="ot">&lt;-</span> grade_vector[i]</span>
+<span id="cb1-9"><a href="simulation-and-loops.html#cb1-9" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="cn">NA</span>, <span class="st">&quot;grade&quot;</span> <span class="ot">=</span> <span class="cn">NA</span>, <span class="st">&quot;unmatched_regression_estimate&quot;</span> <span class="ot">=</span> <span class="cn">NA</span>, <span class="st">&quot;p value&quot;</span> <span class="ot">=</span> <span class="cn">NA</span>)</span>
+<span id="cb1-10"><a href="simulation-and-loops.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (b <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(year_vector)){</span>
+<span id="cb1-11"><a href="simulation-and-loops.html#cb1-11" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> year_vector[b]</span>
+<span id="cb1-12"><a href="simulation-and-loops.html#cb1-12" aria-hidden="true" tabindex="-1"></a>gy <span class="ot">&lt;-</span> <span class="fu">paste</span>(grade, year)</span>
+<span id="cb1-13"><a href="simulation-and-loops.html#cb1-13" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>outcome <span class="ot">&lt;-</span><span class="fu">gsub</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;&quot;</span>,data[,<span class="fu">as.character</span>(gy)],<span class="at">fixed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-14"><a href="simulation-and-loops.html#cb1-14" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(outcome))</span>
+<span id="cb1-15"><a href="simulation-and-loops.html#cb1-15" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.numeric</span>(outcome) <span class="sc">~</span> <span class="fu">as.factor</span>(treatment), <span class="at">data =</span> data)</span>
+<span id="cb1-16"><a href="simulation-and-loops.html#cb1-16" aria-hidden="true" tabindex="-1"></a>df[b,<span class="dv">1</span>]<span class="ot">&lt;-</span> year</span>
+<span id="cb1-17"><a href="simulation-and-loops.html#cb1-17" aria-hidden="true" tabindex="-1"></a>df[b,<span class="dv">2</span>]<span class="ot">&lt;-</span> grade</span>
+<span id="cb1-18"><a href="simulation-and-loops.html#cb1-18" aria-hidden="true" tabindex="-1"></a>df[b,<span class="dv">3</span>] <span class="ot">&lt;-</span> mod1<span class="sc">$</span>coefficients[[<span class="dv">2</span>]]</span>
+<span id="cb1-19"><a href="simulation-and-loops.html#cb1-19" aria-hidden="true" tabindex="-1"></a>df[b,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fu">summary</span>(mod1)<span class="sc">$</span>coefficients[,<span class="dv">4</span>][[<span class="dv">2</span>]]</span>
+<span id="cb1-20"><a href="simulation-and-loops.html#cb1-20" aria-hidden="true" tabindex="-1"></a>empty_list[[i]] <span class="ot">&lt;-</span> df</span>
+<span id="cb1-21"><a href="simulation-and-loops.html#cb1-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-22"><a href="simulation-and-loops.html#cb1-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-23"><a href="simulation-and-loops.html#cb1-23" aria-hidden="true" tabindex="-1"></a>dv_results <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">do.call</span>(rbind, empty_list))</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="bookdownproj_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+</div>
+<div id="group-structured-data-when-the-data-has-a-multilevel-structure" class="section level3" number="7.0.2">
+<h3><span class="header-section-number">7.0.2</span> Group structured data (when the data has a multilevel structure)</h3>
+</div>
+<div id="estimators" class="section level3" number="7.0.3">
+<h3><span class="header-section-number">7.0.3</span> Estimators</h3>
+<p>Three categories of estimators: estimators that model sample selection (propensity scores), estimators that model the outcome directly, and estimators that model both the sample selection and the outcome</p>
+<ul>
+<li><p>IPW</p></li>
+<li><p>BART</p></li>
+<li><p>Outcome Modeling</p></li>
+<li><p>Weight Trimming</p></li>
+<li><p>Doubly Robust Methods</p></li>
+<li><p>Interaction of weights with multi-level matching… how bias/precision is affected</p></li>
+<li><p>Generalizability to different DVs (quant optimal/policy relevant)</p></li>
+</ul>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
+<a href="geospatial-analysis.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
@@ -238,7 +280,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/edit/master/%s",
+"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/edit/master/07-simulation.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -246,7 +288,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/blob/master/%s",
+"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/blob/master/07-simulation.Rmd",
 "text": null
 },
 "download": null,

@@ -4,7 +4,6 @@
 
 Given that the groups are imbalanced (GT option schools are more likely to be high income, less SWD, more students), can we balance the groups to get the ATE of the GT option on ELA and MATH scores?
 
-
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 #install and load packages
 library(tidyverse)
@@ -38,8 +37,35 @@ small <- data %>%
          SC_option = case_when(class_option %in% c("SC", "SC and GT") ~ "SC option",
                                class_option %in% c("no option", "GT") ~ "no SC option"),
          treatment = ifelse(GT_option == "gifted option", 1, 0))
+small$`3 2019.ela` <-gsub(",","",small$`3 2019.y`,fixed = TRUE)
+small$`3 2019.math` <-gsub(",","",small$`3 2019.x`,fixed = TRUE)
 
 ```
+
+
+```{r}
+library(MatchIt)
+
+school_nearest <- matchit(treatment ~ PercentBlack + PercentSWD + PercentPoverty + TotalEnrollment +
+                          ENI, 
+                          family = binomial(),
+                          data = small,
+                          method = "nearest",
+                           caliper = 0.25,
+                           ratio = 3)
+
+#create the matched set
+nearest_matched <- match.data(school_nearest)
+library(cobalt)
+bal.tab(school_nearest, m.threshold = 0.1)
+bal.plot(school_nearest, var.name = 'TotalEnrollment', which = "both")
+bal.plot(school_nearest, var.name = 'PercentPoverty', which = "both")
+bal.plot(school_nearest, var.name = 'PercentBlack', which = "both")
+bal.plot(school_nearest, var.name = 'PercentSWD', which = "both")
+bal.plot(school_nearest, var.name = 'ENI', which = "both")
+
+```
+
 
 $$
 \begin{align}
@@ -49,14 +75,78 @@ $$
 
 ```{r message=FALSE, warning=FALSE}
 # 
- nearest_matched <- match.data(school_nearest)
-# 
+nearest_matched <- match.data(school_nearest)
+
 model_n <- lm(`3 2019.math` ~ treatment, data = nearest_matched)
 summary(model_n)
 
 
 ```
+### Specification of the PS Model with Machine Learning
 
+#### Tree Approaches: GBM and BART
+
+Without information on the true parametric form of the response surface (i.e. covariates could be related to outcome not linearly), flexible modeling approaches like bart help to account for uncertainty in the data. BART is a sum-of-trees and a regularization prior. BART can be used to fit highly nonlinear response surfaces. 
+
+BART can be used to estimate the ATE. First, fit BART to observed data (ELA given Treatment and X). Then make predictions for two datasets. Covariates (X) are intact for both datasets, so BART draws from the posterior distributions of $E[Y(1) |X] and E[Y(0) |x]$ for each person, as well as $E[Y(1) - Y(0)|X] and E[Y(0) |x]$. These posterior distributions for individual level treatment effects are then aggregated to obtain posterior distributions of ATE. 
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, include = FALSE}
+library(twang)
+library(survey)
+
+### gradient boosted model with ps
+ps.school.gbm <- ps(treatment ~ PercentBlack + PercentSWD + PercentPoverty + TotalEnrollment +
+                          ENI, 
+                          data = small,
+                     n.trees = 5000,
+                     interaction.depth = 2,
+                     shrinkage = 0.01,
+                     estimand = "ATT")
+
+```
+
+```{r}
+school.balance <- bal.table(ps.school.gbm)
+plot(ps.school.gbm, plots = 3)
+plot(ps.school.gbm, plots = 4)
+
+## relative importance plots (relationship between the covariates and the treatment assignment)
+
+summary(ps.school.gbm$gbm.obj, 
+        plot = TRUE)
+
+```
+
+### Survey Design and IPW for the Outcome Model 
+
+
+
+```{r message=FALSE, warning=FALSE}
+### analysis of outcomes, perform the outcome analysis with weights (using the survey package)
+small$w <- get.weights(ps.school.gbm, stop.method="es.mean")
+design.ps <- svydesign(ids=~1, weights=~w, data=small)
+glm1 <- svyglm(as.numeric(`3 2019.math`) ~ treatment, design=design.ps)
+summary(glm1)
+
+## increase in MATH scores of 4 points for those in a GT school
+
+
+```
+
+
+### Doubly Robust Methods
+
+Use both PS adjustment and covariate adjustment for "doubly robust" method. These estimators are consistent if either the PS are estimated correctly or the regression model is specificed correctly. See that there are still differences, despite balancing. So, include other covariates in the outcome model that reduces the SE of the treatment, especially if some of these covaraites are strongly related to the outcome.
+
+```{r message=FALSE, warning=FALSE}
+## the SE decreasees 
+glm2 <- svyglm(as.numeric(`3 2019.math`) ~ treatment + PercentSWD, design=design.ps)
+summary(glm2)
+## we can adjust for more, but these have little effect on the estimated program effect
+glm3 <- svyglm(as.numeric(`3 2019.math`) ~ treatment + PercentSWD +
+                 PercentBlack + TotalEnrollment, design=design.ps)
+summary(glm3)
+```
 
 ### Heterogeneous Treatment Effects
 
